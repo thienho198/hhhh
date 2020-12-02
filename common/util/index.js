@@ -37,9 +37,18 @@ const checkValidBody = (req, res, validator)=>{
     return value;
 }
 
+const checkValidBodyNotRes = (body, validator) => {
+    const {error, value} = validator(body);
+    if(error) {
+        throw error
+    }
+    return value;
+}
+
 module.exports = {
     checkSystemError: checkSystemError,
     generateHashPwd: generateHashPwd,
     checkHashPwd: checkHashPwd,
-    checkValidBody: checkValidBody
+    checkValidBody: checkValidBody,
+    checkValidBodyNotRes: checkValidBodyNotRes
 }

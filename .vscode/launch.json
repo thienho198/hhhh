@@ -14,7 +14,7 @@
         // "REDIS_URI": "redis://:123456@localhost:6379",
         "SCOPE": "hhhh",
         "PREFIX_CACHE": "hhhh",
-        "BASIC_TOKEN": "Basic ZDAwYjcwNGEtOWZjMC00NjI4LTgzZTItMjU4NmE2ZTJjNGMxOjMyMTcxOGI3LTM3YmItNDEwNi1iYThmLTliMjdlNDE1OTc3YQ=="
+        "BASIC_TOKEN": "Basic 5fb88f753dfa8924f4b82a61"
       },
       "program": "${workspaceFolder}/server.js"
     },

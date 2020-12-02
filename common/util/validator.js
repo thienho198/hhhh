@@ -25,3 +25,25 @@ module.exports.cRole = (data)=>{
     })
     return schema.validate(data, {stripUnknown: true});
 }
+
+module.exports.cClient = (data)=>{
+    const schema = Joi.object({
+        grants: Joi.array().items(Joi.string()).required(),
+        client_secret: Joi.string(),
+        redirect_uris:Joi.array().items(Joi.string()),
+        name: Joi.string().required()
+    })
+    return schema.validate(data, {stripUnknown: true});
+}
+
+module.exports.cAuthorizationCode = (data) => {
+    const schema = Joi.object({
+        authorization_code: Joi.string().required(),
+        expires_at: Joi.date().required(),
+        scope: Joi.string(),
+        client_id: Joi.string().required(),
+        user_id: Joi.string().required(),
+        redirect_uris: Joi.string().required()
+    })
+    return schema.validate(data, {stripUnknown: true});
+}

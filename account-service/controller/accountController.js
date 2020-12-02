@@ -4,6 +4,7 @@ const codes = require('../../common/enum/codes');
 const constants = require('../../common/enum/constants');
 const util = require('../../common/util');
 
+//middle ware
 module.exports.createAccount = (req, res, next) => {
     const {error, value} = validators.registerValidator(req.body);
     if(error) return res.send(codes.BAD_REQUEST[constants[req.language]]);
@@ -18,4 +19,17 @@ module.exports.createAccount = (req, res, next) => {
         console.log(err);
         res.send({...codes.SYSTEM_ERROR, message: err.stack});
     })
+}
+
+//functions
+module.exports.authenticateUser = async(username, password)=>{
+    try {
+        const user = await Account.findOne({email: username});
+        const result = await util.checkHashPwd(password, user.password);
+        return Promise.resolve({authenticate: result, user: user});
+    }
+    catch(err) {
+        console.log(err);
+        return Promise.reject(err);
+    }
 }
