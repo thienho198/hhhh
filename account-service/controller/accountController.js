@@ -21,6 +21,10 @@ module.exports.createAccount = (req, res, next) => {
     })
 }
 
+module.exports.getAccount = (req, res) => {
+    res.send({...codes.SUCCESS, data: req.token.user})
+}
+
 //functions
 module.exports.authenticateUser = async(username, password)=>{
     try {

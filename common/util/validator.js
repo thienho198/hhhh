@@ -47,3 +47,11 @@ module.exports.cAuthorizationCode = (data) => {
     })
     return schema.validate(data, {stripUnknown: true});
 }
+
+module.exports.cOrigin = (data)=>{
+    const schema = Joi.object({
+        name: Joi.string().required(),
+        origin_url: Joi.string().required()
+    });
+    return schema.validate(data, {stripUnknown: true});
+}

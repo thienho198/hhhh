@@ -7,7 +7,7 @@ const AuthorizationCode = require('../../../auth-service/model/authorizationCode
 const Promise = require('bluebird');
 const authorizationCodeController = require('../../../auth-service/controller/authorizationCodeController');
 const utils = require('../../util');
-const { use } = require('../../../auth-service/router');
+const { use } = require('../../../auth-service/router/request-grant');
 
 var instance;
 

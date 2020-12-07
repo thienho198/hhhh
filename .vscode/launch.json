@@ -11,7 +11,7 @@
       "env": {
         "PORT": "3005",
         "MONGO_URI": "mongodb://hhhh:hhhh@localhost:27017/hhhh",
-        // "REDIS_URI": "redis://:123456@localhost:6379",
+        "REDIS_URI": "redis://@localhost:6379",
         "SCOPE": "hhhh",
         "PREFIX_CACHE": "hhhh",
         "BASIC_TOKEN": "Basic 5fb88f753dfa8924f4b82a61"

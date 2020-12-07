@@ -81,8 +81,9 @@ OAuth2Service.prototype.createAuthorizationCode = async function(req, res){
 OAuth2Service.prototype.authenticateRequest = function(req, res, next) {
     let request = new Request(req);
     let response = new Response(res);
-    return oAuth2.authenticate(request, response)
+    oAuth2.authenticate(request, response)
         .then(token =>{
+            req.token = token;
             next();
         })
         .catch(err =>{
