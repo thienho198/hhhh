@@ -1,0 +1,20 @@
+.dashboard-login-form{
+    &__title{
+        color: #5269fc;
+        font-size: 25px;
+        text-align:center;
+        margin-bottom:14px;
+    }
+    &__subtitle{
+        color:#b3b3b3;;
+        font-size: 14px;
+        text-align:center;
+        margin-bottom: 20px;
+
+    }
+    &__error{
+        color: red;
+        font-size:12px;
+        margin-top: 2px;
+    }
+}

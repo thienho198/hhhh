@@ -6,9 +6,9 @@ const schema = new mongoose.Schema({
     firstName: {type: String},
     lastName: {type: String},
     birthday: {type: String},
-    isRoot:{type: Boolean, default: false},
     isDeleted:{type:Boolean, default: false},
     password: {type: String},
+    type: {type:String},
     roles:[{type:String}]
 },{
     timestamps: true

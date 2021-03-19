@@ -1,0 +1,25 @@
+.dashboard-login-container{
+    height: 100vh;
+    &__loginform-area{
+        width: 34%;
+        height:100%;
+        display: flex;
+        justify-content:center;
+        align-items:center;
+        float:left;
+    }
+    &__introduce{
+        width: 66%;
+        height: 100%;
+        float: left;
+        &__image{
+            height: 100%;
+            img{
+                height:100%;
+                width: 100%;
+                object-fit: cover;
+            }
+
+        }
+    }
+}

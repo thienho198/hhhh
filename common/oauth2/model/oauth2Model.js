@@ -7,7 +7,7 @@ const AuthorizationCode = require('../../../auth-service/model/authorizationCode
 const Promise = require('bluebird');
 const authorizationCodeController = require('../../../auth-service/controller/authorizationCodeController');
 const utils = require('../../util');
-const { use } = require('../../../auth-service/router/request-grant');
+const { use } = require('../../../auth-service/router/role');
 
 var instance;
 
@@ -191,6 +191,15 @@ OAuth2Model.prototype.saveToken = function(token, client, user){
             })
 }
 
+OAuth2Model.prototype.revokeToken = async function(token){
+    try{
+       const refreshToken = await RefreshToken.findOneAndDelete({refresh_token:token.refreshToken})
+        return refreshToken;
+    }
+    catch(err){
+        console.log(err);
+    }
+}
 module.exports = {
     getInstance: function () {
         if (!instance) {

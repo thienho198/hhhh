@@ -39,7 +39,7 @@ OAuth2Service.prototype.obtainToken = function(req,res){
             })
             .catch(err=>{
                 console.log(err);
-                res.send({...codes.SYSTEM_ERROR[req.language], message: err.message});
+                res.status(401).send({...codes.SYSTEM_ERROR[req.language], message: err.message});
             })
 }
 
@@ -88,7 +88,7 @@ OAuth2Service.prototype.authenticateRequest = function(req, res, next) {
         })
         .catch(err =>{
             console.log(err);
-            res.send({...codes.SYSTEM_ERROR[req.language], message: err.message});
+            res.status(401).send({message: err.message});
         })
 }
 

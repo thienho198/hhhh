@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const constants = require('../enum/constants')
 
 const connetDB = ()=>{
-    console.log(global)
     mongoose.connect(process.env.MONGO_URI,{
         useNewUrlParser: true,
         useUnifiedTopology: true,

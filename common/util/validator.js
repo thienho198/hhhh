@@ -4,25 +4,25 @@ const {PHONE_REGEX} = require('../enum/regex')
 module.exports.registerValidator = (data) =>{
     const schema = Joi.object({
         email: Joi.string().required().email(),
-        password: Joi.string().required().min(6)
+        password: Joi.string().required().min(6),
+        firstName: Joi.string().required(),
+        lastName: Joi.string().required(),
+        birthday: Joi.string().required(),
+        phone: Joi.string().regex(PHONE_REGEX),
     });
-    return schema.validate(data, {stripUnknown: true});
+    return schema.validate(data, {stripUnknown: false});
 }
+
 
 module.exports.cRole = (data)=>{
     const schema = Joi.object({
-        name: Joi.string().required(),
-        resources: Joi.array().items(Joi.object(
-            {
-                name:Joi.string().required(),
-                create: Joi.boolean(),
-                read: Joi.boolean(),
-                update: Joi.boolean(),
-                delete: Joi.boolean()
-            }
-            ))
-       
-    })
+                    role:Joi.string().required(),
+                    resource: Joi.string().required(),
+                    action: Joi.string().required(),
+                    attributes: Joi.string().required(),
+                }
+            )
+            
     return schema.validate(data, {stripUnknown: true});
 }
 

@@ -1,0 +1,26 @@
+.login-input-wrapper{
+    display: flex;
+    align-items: center;
+    border: 1px solid #b3b3b3;
+    padding: 8px;
+    margin-top: 10px;
+    height: 23px;
+    &__icon{
+        margin-right: 8px;
+    }
+    &__input{
+        width: 200px;
+        border :none;
+    }
+    &__input:focus{
+        outline: none;
+    }
+}
+
+.login-input-wrapper:hover, .login-input-wrapper--focus{
+    border-color: #5269fc;
+}
+
+.login-input-wrapper--error {
+    border-color: red !important;
+}

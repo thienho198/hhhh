@@ -20,7 +20,7 @@ module.exports.cacheMiddleware = (req, res, next) => {
 };
 
 const funcForCors = (origin, whitelist, callback)=>{
-    if (whitelist.indexOf(origin) !== -1) {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
         callback(null, true)
       } else {
         callback(new Error('Not allowed by CORS'))

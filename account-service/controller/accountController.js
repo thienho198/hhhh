@@ -21,8 +21,29 @@ module.exports.createAccount = (req, res, next) => {
     })
 }
 
+module.exports.signUpNormalAccount = (req,res)=>{
+    const {error, value} = validators.registerValidator(req.body);
+    if(error) return res.status(400).send({message: error.stack});
+    util.generateHashPwd(value.password)
+    .then(hashPwd =>{
+        value.password = hashPwd;
+        value.type = 'user';
+        value.roles = ['user']
+        return Account.create(value);
+    })
+    .then(account =>{
+        res.send({...codes.SUCCESS[req.language], data: account})
+    })
+    .catch(err =>{
+        console.error(err);
+        res.status(400).send({message: err.stack});
+    })
+}
+
 module.exports.getAccount = (req, res) => {
-    res.send({...codes.SUCCESS, data: req.token.user})
+    const userData = {...req.token.user.toObject()};
+    delete userData.password
+    res.send({...codes.SUCCESS[req.language], data: userData})
 }
 
 //functions

@@ -1,24 +1,15 @@
 
-import React, {useEffect, useState } from 'react';
-import Login from 'modules/credential/login/Login';
-import axios from 'axios/mainAxios';
-import {ACCOUNT} from 'config/apis';
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import routes from './routes';
+import {renderRoutes} from 'react-router-config';
 
-function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(()=>{
-    axios.get(ACCOUNT.getInfo)
-    .then(()=>{
-      setIsLoggedIn(true);
-    })
-    .catch(err=>{
-      console.log(err);
-      setIsLoggedIn(false);
-    })
-  },[])
-
-  return isLoggedIn ? <div>Dang nhap thanh cong</div> : <Login />;
+const App = props => {
+  return (
+    <BrowserRouter>
+      <div>{renderRoutes(routes)}</div>
+    </BrowserRouter>
+  )
 }
 
 export default App;

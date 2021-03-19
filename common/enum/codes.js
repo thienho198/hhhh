@@ -16,5 +16,9 @@ module.exports = {
     SUCCESS:{
         [EN]: {code: 200, message: 'Successful'},
         [VI]: {code: 200, message: 'Thành công'}
+    },
+    ACCESS_DENIED:{
+        [EN]: {code: 403, message: 'Access Denied'},
+        [VI]: {code: 403, message: 'Ban khong co quyen thuc hien!'}
     }
 }
