@@ -1,0 +1,5 @@
+
+export const CLIENT_CREDENTIAL = {
+    CLIENT_ID: '5fc7676264aa6c0bc42b40ee',
+    CLIENT_SECRET: '123456',
+}

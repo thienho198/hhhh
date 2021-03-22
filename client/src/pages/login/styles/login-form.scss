@@ -17,4 +17,19 @@
         font-size:12px;
         margin-top: 2px;
     }
+    &__button{
+        margin:16px auto 0 auto;
+        width: 160px;
+        height:37px;
+        display: block;
+        cursor: pointer;
+        background-color:#5269fc;
+        color:white;
+        border:none;
+        border-radius:3px;
+        text-transform: uppercase;
+    }
+    &__button:focus{
+        outline: none;
+    }
 }

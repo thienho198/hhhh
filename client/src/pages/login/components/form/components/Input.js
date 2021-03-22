@@ -9,7 +9,7 @@ const Input = ({ control, name, checkValid, type, error, ...props }) =>{
     const [isHover, setIsHover] = useState(false);
     const {
         field: { ref, ...inputProps },
-        meta: { invalid, isTouched, isDirty },
+        // meta: { invalid, isTouched, isDirty },
       } = useController({
         name,
         control,
