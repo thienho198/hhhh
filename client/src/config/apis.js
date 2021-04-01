@@ -7,3 +7,7 @@ export const AUTH = {
 export const ACCOUNT = {
     getInfo: BaseUrl + 'account/get-info'
 }
+
+export const ROLE = {
+    get: BaseUrl + 'auth/role/read'
+}

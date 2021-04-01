@@ -3,7 +3,7 @@ const codes = require('../../common/enum/codes');
 const utils = require('../../common/util');
 const Client = require('../model/client');
 
-module.exports.createClient = async (req, res, next) => {
+module.exports.create = async (req, res, next) => {
     if(body = utils.checkValidBody(req, res, validators.cClient)){
         try{
             if (body.client_secret){

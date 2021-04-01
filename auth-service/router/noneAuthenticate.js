@@ -6,7 +6,6 @@ router.post('/token',(req, res, next)=>{
       req.headers['content-type'] = 'application/x-www-form-urlencoded';
     next();
   },oAuth2Service.obtainToken);
-
 router.post('/create-authorization-code', oAuth2Service.createAuthorizationCode);
 
 module.exports = router;

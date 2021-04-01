@@ -1,0 +1,132 @@
+.tigerd-btn{
+    position: relative;
+    overflow: hidden;
+    transition: background 400ms;
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    outline: 0;
+    border: 0;
+    border-radius: 0.25rem;
+    // box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.3);
+    display: inline-flex;
+    align-items: center;
+    justify-content:center;
+    filter: brightness(1);
+    cursor: pointer;
+    background-color:white;
+    box-sizing: border-box;
+    padding:1px 6px;
+    &__ripple{
+        z-index: 0;
+        position: absolute; /* The absolute position we mentioned earlier */
+        border-radius: 50%;
+        transform: scale(0);
+        animation: ripple 600ms linear;   
+        animation-fill-mode:backwards;
+        background-color:rgba(0,0,0,0.3); // for darken
+        // background-color: rgba(255, 255, 255, 0.7); // for lighten
+        @keyframes ripple {
+            to {
+              transform: scale(4);
+              opacity: 0;
+            }
+          }
+    }
+    &__ripple--default{
+
+    }
+    &__ripple--primary{
+        background-color:rgba(176,229,241,0.7);
+    }
+    &__ripple--secondary{
+        background-color:rgba(178,207,255, 0.7);
+    }
+    &__icon-left{
+        margin-right: 8px;
+    }
+    &__icon-right{
+        margin-left: 8px;
+    }
+    &__title{
+        z-index: 1;
+    }
+}
+.tigerd-btn:focus{
+    outline:none;
+}
+// .tigerd-btn:hover:not(.tigerd-btn--disabled):not(.tigerd-btn--disabled){
+//     filter: brightness(1.1);
+// }
+    //SIZE
+.tigerd-btn--smallsize {
+    height: 30px;
+}
+
+.tigerd-btn--mediumsize {
+    height: 34px;
+}
+
+.tigerd-btn--largesize{
+    height: 40px;
+}
+
+
+    //VARIANT-COLOR
+.tigerd-btn--texted--default{
+
+}
+.tigerd-btn--texted--default:hover:not(.tigerd-btn--disabled){
+    background-color: #e7e7e7;
+}
+.tigerd-btn--texted--primary{
+    color: #219ebc;
+}
+.tigerd-btn--texted--primary:hover:not(.tigerd-btn--disabled){
+    background-color:#e2f5fa;
+}
+.tigerd-btn--texted--secondary{
+    color: #2979ff;
+}
+.tigerd-btn--texted--secondary:hover:not(.tigerd-btn--disabled){
+    background-color: #d9e7ff;
+}
+
+.tigerd-btn--outlined--default{
+    border: 1px solid #ddd;
+}
+.tigerd-btn--outlined--default:hover:not(.tigerd-btn--disabled){
+    background-color: #e7e7e7;
+}
+.tigerd-btn--outlined--primary{
+    color: #219ebc;
+    border: 1px solid #219ebc;
+}
+.tigerd-btn--outlined--primary:hover:not(.tigerd-btn--disabled){
+    background-color:#e2f5fa;
+}
+.tigerd-btn--outlined--secondary{
+    color: #2979ff;
+    border: 1px solid #2979ff;
+}
+.tigerd-btn--outlined--secondary:hover:not(.tigerd-btn--disabled){
+    background-color: #d9e7ff;
+}
+
+.tigerd-btn--contained--default{
+    background-color:#ddd;
+}
+.tigerd-btn--contained--primary{
+    background-color: #219ebc;
+    color:white;
+}
+.tigerd-btn--contained--secondary{
+    background-color:#2979ff;
+    color: white;
+}
+
+    //DISABLED
+.tigerd-btn--disabled{
+    color:#666;
+    box-shadow: none;
+    cursor: default;
+}

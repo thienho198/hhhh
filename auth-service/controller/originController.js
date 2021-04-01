@@ -5,7 +5,7 @@ const validators = require('../../common/util/validator');
 const utils = require('../../common/util');
 const redisClient = require('../../common/database/redis').getInstance().client;
 
-module.exports.getOrigin = async(req, res, next) => {
+module.exports.read = async(req, res, next) => {
     try{
         const origins = await Origin.find({});
         res.send({...codes.SUCCESS[req.language], data: origins})
@@ -17,7 +17,7 @@ module.exports.getOrigin = async(req, res, next) => {
 
 }
 
-module.exports.createOrigin = async (req, res, next)=>{
+module.exports.create = async (req, res, next)=>{
     if(utils.checkValidBody(req, res, validators.cOrigin)){
         try {
             const origin = await Origin.create(req.body);

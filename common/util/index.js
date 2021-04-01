@@ -47,14 +47,19 @@ const checkValidBodyNotRes = (body, validator) => {
     return value;
 }
 
-const checkPermission = async (req,res,resource,action,isOwn) => {
+const checkPermission = async (req,resource,action,isOwn) => {
     const permissionByAction = (ac,role,resource,action)=>{
         switch(action){
             case 'create': 
                 if(isOwn){
-                    return ac.can(role).createOwn(resource);
+                    return ac.can(role).createOwn(resource).granted ? ac.can(role).createOwn(resource) : ac.can(role).createAny(resource);
                 }
                 return ac.can(role).createAny(resource);
+            case 'read':
+                if(isOwn){
+                    return ac.can(role).readOwn(resource).granted ? ac.can(role).readOwn(resource) : ac.can(role).readAny(resource);
+                }
+                return ac.can(role).readAny(resource);
             default:
                 throw new Error(`Invalid action ${action}`)
         }
@@ -62,22 +67,22 @@ const checkPermission = async (req,res,resource,action,isOwn) => {
 
     try{
         const user = req.token.user;
-        if(user.roles.indexOf('super admin')>=0){
+        if(user.type.roles.indexOf('super admin')>=0){
             return Promise.resolve({granted:true, attributes:'*'});
         }
-        const roles = await Role.find();
+        const roles = await Role.find().lean();
         ac.setGrants(roles);
-        user.roles.forEach(role=>{
-            const permission = permissionByAction(ac,role,resource,action);
+        for(let i = 0; i < user.type.roles.length; i++){
+            const permission = permissionByAction(ac,user.type.roles[i],resource,action);
             if(permission.granted){
                 return Promise.resolve({granted:true, attributes: permission.attributes})
             }
-        })
+        }
         return Promise.reject({message:codes.ACCESS_DENIED[req.language].message})
     }
     catch(err){
         console.log(err);
-        return Promise.reject(err)
+        return Promise.reject({...err, message:codes.ACCESS_DENIED[req.language].message})
     }
 }
 

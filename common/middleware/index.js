@@ -1,10 +1,13 @@
 const client = require('../database/redis').getInstance().client;
 const originController = require('../../auth-service/controller/originController');
 const constants = require('../enum/constants');
+const codes = require('../enum/codes');
+const validators = require('../../common/util/validator');
 const cors = require('cors');
 
 module.exports.cacheMiddleware = (req, res, next) => {
-    let key = "__express__" + req.originalUrl || req.url;
+    const {skip,limit} = req.body;
+    let key = "__express__" + (req.originalUrl || req.url) + 's' + skip + 'l' + limit;
     client.get(key, function(err, reply){
       if(reply){
           res.send(JSON.parse(reply));
@@ -18,7 +21,22 @@ module.exports.cacheMiddleware = (req, res, next) => {
       }
     });
 };
-
+module.exports.transformDataPaging = (req, res, next) => {
+    try{
+        const value = validators.paging(req.query);
+        const skip = (value.page * value.page_size) - value.page_size ;
+        const limit = value.page_size;
+        delete req.query.page;
+        delete req.query.page_size;
+        req.query.skip = skip;
+        req.query.limit = limit;
+        next();
+    }
+    catch(err) {
+        console.log(err);
+        res.status(err.code || 400).send({message:err.message || 'System error'})
+    }
+}
 const funcForCors = (origin, whitelist, callback)=>{
     if (whitelist.indexOf(origin) !== -1 || !origin) {
         callback(null, true)

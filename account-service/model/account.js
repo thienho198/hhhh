@@ -8,8 +8,7 @@ const schema = new mongoose.Schema({
     birthday: {type: String},
     isDeleted:{type:Boolean, default: false},
     password: {type: String},
-    type: {type:String},
-    roles:[{type:String}]
+    type: {type:mongoose.Types.ObjectId,ref:'type'}
 },{
     timestamps: true
 });

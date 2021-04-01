@@ -5,13 +5,12 @@ const {VI} = require('./common/enum/constants')
 const util = require('./common/util');
 const express = require('express');
 const app = express();
-const noneAuthenAccountRoute = require('./account-service/router/none-authenticate');
+const noneAuthenAccountRoute = require('./auth-service/router/noneAuthenticate');
 const accountRoute = require('./account-service/router');
-const originRoute = require('./auth-service/router/other');
-const roleRoute = require('./auth-service/router/role');
-const authorizeRoute = require('./auth-service/router/authorize');
+const libraryRoute = require('./library-service/router');
 const oAuth2Service = require('./common/oauth2').getInstance();
 const middlewares = require('./common/middleware');
+const authServiceRouter = require('./auth-service/router');
 
 app.use(middlewares.corsMiddleware);
 app.use(express.json())
@@ -24,11 +23,9 @@ app.use((req,res,next)=>{
     }
     next();
 })
-app.use('/account', noneAuthenAccountRoute);
-app.use('/auth', authorizeRoute);
+app.use('/auth-srv', noneAuthenAccountRoute);
 app.use(oAuth2Service.authenticateRequest);
-app.use('/account',accountRoute);
-app.use('/auth', roleRoute);
-app.use('/auth', originRoute);
-
+app.use('/account-srv',accountRoute);
+app.use('/auth-srv',authServiceRouter);
+app.use('/library-srv',libraryRoute);
 app.listen(process.env.PORT, () => console.log(`App listening at http://localhost:${process.env.PORT}`))

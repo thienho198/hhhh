@@ -22,7 +22,7 @@ function OAuth2Model() {
 OAuth2Model.prototype.getAccessToken = function(accessToken){
    return AccessToken.findOne({access_token: accessToken}).exec()
      .then(token=>{
-         return Promise.all([token,User.findById(token.user_id), Client.findById(token.client_id)])
+         return Promise.all([token,User.findById(token.user_id).populate('type'), Client.findById(token.client_id)])
          .spread((token, user, client)=>{
             return {
                accessToken: token.access_token,
@@ -105,7 +105,7 @@ OAuth2Model.prototype.getClient = function (clientId, clientSecret){
 
 OAuth2Model.prototype.getUser = async function(username, password){
     try {
-      const user = await User.findOne({email:username});
+      const user = await User.findOne({email:username}).populate('type',['name','roles']);
       await utils.checkHashPwd(password, user.password);
       return user;
     }

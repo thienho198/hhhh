@@ -19,6 +19,6 @@ module.exports = {
     },
     ACCESS_DENIED:{
         [EN]: {code: 403, message: 'Access Denied'},
-        [VI]: {code: 403, message: 'Ban khong co quyen thuc hien!'}
+        [VI]: {code: 403, message: 'Ban khong co quyen truy cap vao tai nguyen nay!'}
     }
 }

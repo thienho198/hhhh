@@ -5,20 +5,20 @@ const constants = require('../../common/enum/constants');
 const util = require('../../common/util');
 
 //middle ware
-module.exports.createAccount = (req, res, next) => {
-    const {error, value} = validators.registerValidator(req.body);
-    if(error) return res.send(codes.BAD_REQUEST[constants[req.language]]);
-    util.generateHashPwd(value.password)
-    .then((hashPwd) => {
+module.exports.createAccount = async(req, res, next) => {
+    const {error, value} = validators.cAccount(req.body);
+    if(error) return res.status(400).send({...codes.BAD_REQUEST[constants[req.language]], message: error.message});
+    try{
+        await util.checkPermission(req,'account','create');
+        const hashPwd = await util.generateHashPwd(value.password);
         value.password = hashPwd;
-        Account.create(value, (err, result) => {
-            err ? res.send({...codes.SYSTEM_ERROR, message: err.stack}) : res.send({...codes.SUCCESS[req.language], data: result})
-        })
-    })
-    .catch((err) =>{
-        console.log(err);
-        res.send({...codes.SYSTEM_ERROR, message: err.stack});
-    })
+        const acount = await Account.create(value);
+        res.send({...codes.SUCCESS[req.language], data: acount})
+    }
+    catch(err) {
+        console.error(err);
+        res.status(400).send(err)
+    }
 }
 
 module.exports.signUpNormalAccount = (req,res)=>{
