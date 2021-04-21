@@ -120,3 +120,28 @@ module.exports.paging = (data) =>{
     if(error) throw Error(error);
     return value;
 }
+
+module.exports.cMenu = {
+    name:Joi.string().required(),
+    parentId:Joi.string(),
+    isActive: Joi.boolean(),
+    requiredTypes: Joi.array().items(Joi.string())
+}
+
+module.exports.dRole = {
+    id:Joi.string().required()
+}
+module.exports.uRole = {
+    id:Joi.string().required(),
+    role:Joi.string(),
+    resource: Joi.string(),
+    action: Joi.string(),
+    attributes: Joi.string(),
+}
+module.exports.uMenu = {
+    name:Joi.string(),
+    parentId:Joi.string(),
+    isActive: Joi.boolean(),
+    requiredTypes: Joi.array().items(Joi.string()),
+    id: Joi.string().required(),
+}

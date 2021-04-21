@@ -31,8 +31,18 @@ import Modal from '../../components/mymodal';
 import saveAs from 'file-saver';
 import EditForm from './forms/EditForm';
 import { Loading } from './theme-sources/material-ui/components/loading';
+import moment from 'moment';
+import styled from 'styled-components';
+import ConfirmDialog from '../../components/dialog/DialogConfirm';
 
-const DateFormatter = ({ value }) => '123';
+const ToolbarCustom = styled.div`
+display:flex;
+justify-content: flex-end;
+align-items:center;
+margin-bottom:10px;
+`
+
+const DateFormatter = ({ value }) => moment(value).format('DD-MM-YYYY');
 
 const DateTypeProvider = props => (
     <DataTypeProvider
@@ -58,10 +68,15 @@ export default class Admin extends React.Component {
             currentPage:1,
             pageSize:10,  
             loading: false,
-            totalCount: 0
+            totalCount: 0,
+            deleteConfirmDialog:{
+                open: false,
+                question: 'Do you want to delete this role?',
+                content:''
+            }            
         }
     }
-    componentDidMount(){
+    fetchData = ()=>{
         this.setState({loading: true});
         axios.get(ROLE.get)
         .then(res=>{
@@ -73,19 +88,52 @@ export default class Admin extends React.Component {
             this.setState({loading: false})
             console.log(err)
         })
+
+    }
+    componentDidMount(){
+        this.fetchData()
     }
     //#region events
-    startExporting = ()=>{
-        this.exporterRef.current.exportGrid();
+    startExporting = (options)=>{
+         this.exporterRef.current.exportGrid(options);
     }
     onSaveExportFile = (workbook)=>{
         workbook.xlsx.writeBuffer().then((buffer) => {
             saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'DataGrid.xlsx');
           });
     }
+    onCloseModal = () => {
+        this.modalRef.onBlur();
+    }
+    onAddRole = () => {
+        this.modalRef.onShow(<EditForm onClose={this.onCloseModal} reload={this.fetchData} type="create" api={ROLE.create} buttonName="Create"/>)
+    }
     onEditRowHandler = (rowData) => {
-        console.log(rowData);
-        this.modalRef.onShow(<EditForm  data={rowData}/>)
+        this.modalRef.onShow(<EditForm onClose={this.onCloseModal} reload={this.fetchData} data={rowData} api={ROLE.update} buttonName="Update"/>)
+    }
+    onDeleteRoleHandler = (id) => { 
+        axios.delete(ROLE.delete,{params:{id:id}})
+        .then(res=>{
+            this.onCloseConfirmDeleteDialog();
+            this.fetchData()
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+    }
+    onOpenConfirmDeleteDialog = (rowData) =>{
+        const updateDeleteConfirmDialog = {...this.state.deleteConfirmDialog};
+        const content = `role: ${rowData.role}, resource: ${rowData.resource}, action: ${rowData.action}`
+        updateDeleteConfirmDialog.open = true;
+        updateDeleteConfirmDialog.content = content;
+        updateDeleteConfirmDialog.id = rowData._id;
+        
+        this.setState({deleteConfirmDialog: updateDeleteConfirmDialog})
+    }
+    onCloseConfirmDeleteDialog = ()=>{
+        const updateDeleteConfirmDialog = {...this.state.deleteConfirmDialog};
+        updateDeleteConfirmDialog.open = false;
+        this.setState({deleteConfirmDialog: updateDeleteConfirmDialog})
     }
     //#region render
 
@@ -93,7 +141,7 @@ export default class Admin extends React.Component {
         return (
             <div className="action-row">
                 <Button onClick={()=>this.onEditRowHandler(row.row)} styleButton={{backgroundColor:'#ffc107', marginRight:'10px'}} styleTitle={{color:'white'}}>Edit</Button>
-                <Button styleButton={{backgroundColor:'#dc3545'}} styleTitle={{color:'white'}}>Delete</Button>
+                <Button onClick={()=>this.onOpenConfirmDeleteDialog(row.row)} styleButton={{backgroundColor:'#dc3545'}} styleTitle={{color:'white'}}>Delete</Button>
             </div>
         ) 
     }
@@ -106,8 +154,9 @@ export default class Admin extends React.Component {
             <div className="admin-page">
                 <div className="admin-page__role">
                     <div className="admin-page__role__title">Roles</div>
+                    <ToolbarCustom><Button size="medium" variant="contained" color="primary" onClick={this.onAddRole}>Add role</Button></ToolbarCustom>
                     <Paper>
-                        <Grid
+                        <Grid   
                             rows={data}
                             columns={columns}
                         >
@@ -138,17 +187,19 @@ export default class Admin extends React.Component {
                             <PagingPanel 
                              pageSizes={[10,15,20]}
                             />
-                            {/* <Toolbar/>
-                            <ExportPanel startExport={this.startExporting} /> */}
+                            {/* <Toolbar/> */}
+                            {/* <ExportPanel startExport={this.startExporting} /> */}
                         </Grid>
-                        <GridExporter
+                        {/* <GridExporter
                             ref={this.exporterRef}
                             rows={data}
                             columns={columns}
+                            grouping={[{ columnName: 'role' },{ columnName: 'resource' }]}
                             onSave={this.onSaveExportFile}
-                        />
+                        /> */}
                     </Paper>
                     <Modal getRef={ref=>this.modalRef = ref} />
+                    <ConfirmDialog handleOk={()=>this.onDeleteRoleHandler(this.state.deleteConfirmDialog.id)}  handleClose={this.onCloseConfirmDeleteDialog} data={this.state.deleteConfirmDialog}/>
                 </div>
             </div>
         )

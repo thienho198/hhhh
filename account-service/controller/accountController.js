@@ -5,7 +5,7 @@ const constants = require('../../common/enum/constants');
 const util = require('../../common/util');
 
 //middle ware
-module.exports.createAccount = async(req, res, next) => {
+module.exports.create = async(req, res, next) => {
     const {error, value} = validators.cAccount(req.body);
     if(error) return res.status(400).send({...codes.BAD_REQUEST[constants[req.language]], message: error.message});
     try{

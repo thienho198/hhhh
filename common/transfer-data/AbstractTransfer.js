@@ -21,7 +21,7 @@ AbstractTransfer.prototype.handleTransferData = function(){
             const isUseQuery =  (method === METHODS.GET || method === METHODS.DELETE)
             const data = isUseQuery ? req.query : req.body; 
             if(this.isPaging){ 
-                if(method == METHODS.GET || method == METHODS.DELETE){
+                if(method == METHODS.GET){
                     const skip = (data.page * data.page_size) - data.page_size ;
                     const limit = data.page_size;
                     delete req.query.page;
@@ -37,7 +37,12 @@ AbstractTransfer.prototype.handleTransferData = function(){
                     req.body.skip = skip;
                     req.body.limit = limit;
                 }
-    
+            }
+
+            if(this.isSorting){
+                if(method == METHODS.GET){
+                    req.query.sort = {[req.query.sortBy]:req.query.orderBy}
+                }
             }
             
             await this.customHandleTransferData(req, res);

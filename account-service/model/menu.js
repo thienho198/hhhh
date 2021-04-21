@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const schema = new mongoose.Schema({
     name: {type: String},
     parentId: {type: String},
-    isActive: {type: Boolean},
-    requiredRoles: [{type: mongoose.Types.ObjectId, ref:'role'}]
+    isActive: {type: Boolean, default: true},
+    requiredTypes: {type:[{type: mongoose.Types.ObjectId, ref:'type'}], default:[]},
 },{
     timestamps: true
 })

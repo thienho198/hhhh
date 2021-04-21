@@ -27,8 +27,9 @@
 }
   /* Modal Content */
   .mymodal__content {
+    margin:20px;
+    max-width: 500px;
     background-color: #fefefe;
-    margin: auto;
     border: 1px solid #888;
     position: relative;
     width: fit-content;

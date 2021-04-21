@@ -1,5 +1,6 @@
 .library-system-header{
     height:54px;
+    z-index: 301;
     background-color: white;
     position:fixed;
     top: 0;
@@ -7,6 +8,8 @@
     right: 0;
     display:flex;
     padding: 0 20px;
+    justify-content: space-between;
+    align-items: center;
     &__left{
         display: flex;
         align-items: center;
@@ -20,5 +23,8 @@
 
             }
         }
+    }
+    &__right{
+
     }
 }

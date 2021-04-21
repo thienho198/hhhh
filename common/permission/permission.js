@@ -42,6 +42,7 @@ Permission.prototype.handle = function(){
             if(user.type.roles.indexOf('super admin')>=0){
                 req.filterAttributes = '*';
                 next();
+                return;
             }
             const roles = await Role.find().lean();
             ac.setGrants(roles);

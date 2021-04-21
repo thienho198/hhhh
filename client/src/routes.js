@@ -3,7 +3,7 @@ import Home from './pages/home/Home';
 import LoginPage from './pages/login/Login';
 import PrivateRoute from './modules/route/PrivateRoute';
 import AdminPage from './pages/admin/Admin';
-import { Redirect } from 'react-router';
+import NotFoundPage from './pages/not-found/NotFound';
 export default [
     {
         component: LoginPage,
@@ -16,7 +16,7 @@ export default [
        routes: [
            {
                render:()=> <PrivateRoute roles={['admin','super admin']} component={AdminPage}/>,
-               path:'/admin',
+               path:'/Admin/Role',
                exact: true
            },
            {
@@ -25,7 +25,7 @@ export default [
                exact: true
            },
            {
-               render: () => <div>Page not found</div>, 
+               render: () => <NotFoundPage />, 
                path:'/',
            }
        ]

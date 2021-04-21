@@ -6,18 +6,40 @@ import { ErrorMessage } from '@hookform/error-message';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import axios from '../../../axios/mainAxios';
 
 const Form = props =>{
-    const {role, resource, attributes, action} = props.data;
+    const {role = '', resource='', attributes='', action='create:any', _id} = props.data || {};
+    const buttonName = props.buttonName
     const { handleSubmit, errors, control } = useForm();
     const onSubmit = ()=>{
         const submitData = control.getValues();
         console.log(submitData);
+        if(props.type==='create'){
+            axios.post(props.api,submitData)
+            .then(result=>{
+                props.reload();
+                props.onClose();
+            })
+            .catch(error=>{
+                console.log(error)
+            })
+        }
+        else{
+            submitData.id = _id;
+            axios.put(props.api,submitData)
+            .then(result=>{
+                props.reload();
+                props.onClose();
+            })
+            .catch(error=>{
+                console.log(error)
+            })
+        }
     }
-    console.log(errors);
     return (
-        <div className="role-form-edit" style={{width:"500px", padding:"30px", borderRadius:'4px'}}>
-            <div style={{fontSize:"20px", marginBottom:'30px'}}>Edit Role</div>
+        <div className="role-form-edit" style={{ padding:"30px", borderRadius:'4px'}}>
+            <div style={{fontSize:"20px", marginBottom:'30px'}}>{props.type ==='create' ? 'Create' : 'Edit'}</div>
             <div className="row mb-2">
                 <div className="col-md-6">
                     <Controller 
@@ -81,7 +103,7 @@ const Form = props =>{
                     <Controller 
                         defaultValue={attributes}
                         control={control} 
-                        name="attribute"
+                        name="attributes"
                         rules={{ required: 'Attribute is required' }}
                         render={({ onChange, onBlur, value }) => (
                             <TextField error={errors["attribute"]} value={value} onChange={onChange} fullWidth id="role-form-attribute-field" label="Attribute" />
@@ -90,7 +112,7 @@ const Form = props =>{
                     <ErrorMessage errors={errors} name="attribute" render={({ message }) => <p className="dashboard-login-form__error">{message}</p>}/>
                 </div>
             </div>
-            <Button onClick={handleSubmit(onSubmit)} variant="outlined" color="primary">Apply</Button>
+            <Button onClick={handleSubmit(onSubmit)} variant="outlined" color="primary">{buttonName}</Button>
         </div>
     )
 }

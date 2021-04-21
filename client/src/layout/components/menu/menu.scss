@@ -1,0 +1,130 @@
+:root{
+    --main-color: #1967d2;
+    --height-menu-item: 40px;
+    --main-color-lower-3: #deeafb;
+}
+.tigerd-menu{
+    transition: width 0.4s;
+    &__group {
+        &__name{
+            color: #5f6368;
+            font-size: 11px;
+            letter-spacing: .8px;
+            text-transform: uppercase;
+            padding: 16px 0 8px 24px;
+            transition: all .15s ease-in-out;
+        }
+    }
+    &__parentmenu{
+        &__content{
+            cursor: pointer;
+            display:flex;
+            height: var(--height-menu-item);
+            position: relative;
+            align-items: center;
+            transition: background-color 0.5s;
+            // border-top-right-radius: calc(var(--height-menu-item)/2);
+            // border-bottom-right-radius: calc(var(--height-menu-item)/2);
+            // margin-right: 10px;
+            font-weight:bold;
+            padding-left: 10px;
+            &__expandicon{
+                position: absolute;
+                left: 8px;
+            }
+            &__icon{
+                padding-left: 24px;  
+            }
+            &__name{
+                padding-left: 8px;
+            }
+        }
+        &__content--active{
+            background-color: var(--main-color-lower-3);
+            color: var(--main-color);
+        }
+        // &__content--parentactive{
+        //     background-color:#ddd;
+        // }
+        &__content:not(&__content--active):hover{
+            background-color: #ddd;
+        }
+        .tigerd-menu__children{
+            // transform:scaleY(0); 
+            max-height: 0;
+            overflow: hidden;
+            // display:none;
+            transition:max-height 0.1s ease-out;
+             
+            // transform-origin:top;
+            &__childrenmenu{
+                cursor: pointer;
+                &__content{
+                    // margin-right: 5px;
+                    padding-left:65px;
+                    transition: background-color 0.5s;
+                    display:flex;
+                    height: calc(var(--height-menu-item) - 3px);
+                    // border-top-right-radius: calc(var(--height-menu-item)/2);
+                    // border-bottom-right-radius: calc(var(--height-menu-item)/2);
+                    align-items: center;
+                    position: relative;
+                    &__expandicon{
+                        position: absolute;
+                        left: 48px;
+                    }
+                    &__name{
+                        
+                    }
+                }
+                &__content--active{
+                    background-color: var(--main-color-lower-3);
+                    color: var(--main-color);
+                }
+                &__content--parentactive{
+                    background-color: #eee;
+                }
+                &__content:not(.tigerd-menu__children__childrenmenu__content--active):hover{
+                    background-color: #ddd;
+                }
+                &__submenus{
+                    max-height: 0;
+                    overflow: hidden;
+                    &__submenu{
+                       padding-left:85px;
+                       height: calc(var(--height-menu-item) - 6px);
+                    //    border-top-right-radius: calc(var(--height-menu-item)/2);
+                    //    border-bottom-right-radius: calc(var(--height-menu-item)/2);
+                       display:flex;
+                       align-items: center;
+                       cursor: pointer;
+                       transition: background-color 0.5s;                    }
+                    &__submenu--active{
+                        background-color: var(--main-color-lower-3);
+                        color: var(--main-color);
+                    }
+                    &__submenu:not(.tigerd-menu__children__childrenmenu__submenus__submenu--active):hover{
+                        background-color:#ddd;
+                    }
+                    &__submenu:first-child{
+                    
+                    }
+                }
+                &__submenus--expand{
+                    max-height:800px;
+                    transition:max-height 1s ease-out;
+                }
+            }
+        }
+        .tigerd-menu__children--expand{
+            // transform:scaleY(1); 
+            max-height: 800px;
+            //  transition: max-height 0s;
+            // display: block;
+            transition:max-height 1s ease-out;
+        }
+    }
+}
+.tigerd-menu--collapse{
+    width: 80px;
+}

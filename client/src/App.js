@@ -10,7 +10,7 @@ const App = props => {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <div>{renderRoutes(routes)}</div>
+          <div>{renderRoutes(routes)}</div>
       </BrowserRouter>
     </Provider>
   )

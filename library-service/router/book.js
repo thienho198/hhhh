@@ -8,7 +8,7 @@ const permissionReadBook = new Permission('book','read');
 const BookTranfer = require('../../common/transfer-data/BookTranfer');
 const bookTranferGet = new BookTranfer({isPaging:true});
 
-Router.post('/create',permissionCreateBook.handle,bookController.create);
+Router.post('/create',permissionCreateBook.handle(),bookController.create);
 Router.get(
 '',
 permissionReadBook.handle(),

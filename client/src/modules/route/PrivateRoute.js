@@ -3,26 +3,38 @@ import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 import intersectionWith from 'lodash/intersectionWith';
 import isEqual from 'lodash/isEqual';
+import { Loading } from '../../pages/admin/theme-sources/material-ui/components/loading';
+import styled from 'styled-components';
+const LoadingCheckLogin = styled.div`
+position:fixed;
+top:0;
+left:0;
+right:0;
+bottom:0;
+background-color:white;
+`
+const AccessDenied = styled.div`
+padding-top:100px;
+`
 
 function PrivateRoute({ component, roles , ...props }) {
 
     const renderCheckLoginLoading = ()=>{
       return (
-        <div>Im checking login</div>
+        <LoadingCheckLogin><Loading /></LoadingCheckLogin>
       )
     }
-    const renderNotFound = ()=>{
-      console.log('page not found')
+    const renderAccessDenied = ()=>{
       return (
-        <div>Not found this page</div>
+        <AccessDenied>Access denied</AccessDenied>
       )
     }
     const renderContent = ()=>{
       return props.isAuthenticated ? 
                   (
-                    intersectionWith(props.accountData.roles,roles,isEqual).length > 0 ? 
+                    intersectionWith(props.accountData.type.roles,roles,isEqual).length > 0 ? 
                     React.createElement(component, props) : 
-                    renderNotFound()
+                    renderAccessDenied()
                  )
              : 
               <Redirect

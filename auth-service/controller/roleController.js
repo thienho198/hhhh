@@ -29,3 +29,27 @@ module.exports.read = async(req, res, next)=>{
         res.status(400).send({...codes.SYSTEM_ERROR[req.language], error: err.message})
     }
 }
+
+module.exports.delete = async(req, res, next) => {
+    try{
+        const id = req.query.id;
+        const roleDelete = await Role.findByIdAndDelete(id);
+        res.send({...codes.SUCCESS[req.language], data:roleDelete})
+    }
+    catch(err){
+        console.log(err);
+        res.status(400).send({...codes.SYSTEM_ERROR[req.language], error: err.message})
+    }
+}
+
+module.exports.update = async(req, res, next) => {
+    try{
+      const id = req.body.id;
+      const roleUpdated = await Role.findByIdAndUpdate(id, req.body, {new:true});
+      res.send({...codes.SUCCESS[req.language], data:roleUpdated})
+    }
+    catch(err){
+        console.log(err);
+        res.status(400).send({...codes.SYSTEM_ERROR[req.language], error: err.message}) 
+    }
+}

@@ -1,13 +1,14 @@
 
 const express = require('express');
 const router = express.Router();
-const accountController = require('../controller/accountController');
 const typeRouter = require('./type');
-
-router.post('/create',accountController.createAccount)
-
-router.get('/get-info', accountController.getAccount);
+const menuRouter = require('./menu');
+const accoutRouter = require('./account');
 
 router.use('/type', typeRouter);
+
+router.use('/menu', menuRouter);
+
+router.use('/account', accoutRouter);
 
 module.exports = router;

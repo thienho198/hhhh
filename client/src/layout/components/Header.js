@@ -1,7 +1,13 @@
 import React from 'react';
 import '../styles/header.scss';
+import styled from 'styled-components';
 
+const HeaderRight = styled.div`
+    display:flex;
+    jutify-content:space-between;
+`
 export default class Header extends React.Component {
+    
     render() {
         return (
             <div className="library-system-header">
@@ -12,6 +18,11 @@ export default class Header extends React.Component {
                             Admin
                         </div>
                     </div>
+                </div>
+                <div className="library-system-header__right">
+                    <HeaderRight>
+                        abc
+                    </HeaderRight>
                 </div>
             </div>
         )
