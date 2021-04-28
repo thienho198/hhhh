@@ -12,63 +12,7 @@ import axios from '../../../axios/mainAxios';
 import {MENU} from '../../../config/apis';
 import {buildTree} from '../../../utils';
 import {withRouter} from 'react-router-dom';
-const menuMetadata = [
-  {
-    name: "Trang chủ",
-    icon: <HomeIcon width="18" height="18" />,
-    iconAtive: <HomeActive width="18" height="18" />,
-    isActive: true,
-  },
-  {
-    name: "Thời gian thực",
-  },
-  {
-    groupName: "Chu ky hoat dong",
-    members: [
-      {
-        name: "Thu nạp",
-        children: [
-          {
-            name: "Tổng quan",
-            children: [
-              {
-                name: "Tổng quan sub 1",
-              },
-              {
-                name: "Tổng quan sub 2",
-              },
-            ],
-          },
-          {
-            name: "Thu nạp người dùng",
-          },
-        ],
-      },
-      {
-        name: "Mức độ tương tác",
-        children: [
-          {
-            name: "Tổng quan",
-          },
-          {
-            name: "Sự kiện",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    groupName: "Người dùng",
-    members: [
-      {
-        name: "Nhân khẩu học",
-      },
-      {
-        name: "Công nghệ",
-      },
-    ],
-  },
-];
+import get from 'lodash/get'
 
 const addKeysToMenu = (mt, parentPath = "") => {
   // console.log("123", mt);
@@ -87,9 +31,33 @@ const addKeysToMenu = (mt, parentPath = "") => {
   return mt;
 };
 
+const activeMenuItemInitalized = function(menuData, keyPath){
+  //active item
+  const newMenuItemActive = this.findItemByKeyPath(keyPath, menuData);
+  newMenuItemActive && (newMenuItemActive.isActive = true);
+
+  //expand parents
+  const arrayKeyPathOld = keyPath.split("/");
+  arrayKeyPathOld.pop();
+  arrayKeyPathOld.shift();
+
+  arrayKeyPathOld.forEach((key, index) => {
+    let keyPathPerItem = "";
+    for (let i = 0; i <= index; i++) {
+      keyPathPerItem = keyPathPerItem + "/" + arrayKeyPathOld[i];
+    }
+    const menuItemParent = this.findItemByKeyPath(
+      keyPathPerItem,
+      menuData
+    );
+    !menuItemParent.groupName && (menuItemParent.isExpand = true);
+  });
+  return menuData
+}
 class Menu extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       menuMetadata: [],
       expandIcon: props.expandIcon || <ExpandIcon width="12" height="12" />,
@@ -156,7 +124,7 @@ class Menu extends React.Component {
       this.state.activeKeyPath,
       updateMetadata
     );
-    oldMenuItemActive.isActive = false;
+    oldMenuItemActive && (oldMenuItemActive.isActive = false);
     //active new item
     const newMenuItemActive = this.findItemByKeyPath(keyPath, updateMetadata);
     newMenuItemActive.isActive = true;
@@ -203,7 +171,8 @@ class Menu extends React.Component {
   componentDidMount() {
     axios.get(MENU.get,{params:{page:1,page_size:100, projection:'name requiredTypes parentId'}})
     .then(res=>{
-        this.setState({menuMetadata: addKeysToMenu(buildTree(res.data.data).children)})
+      const keyPathByUrl = get(this.props,'history.location.pathname');
+      this.setState({menuMetadata: activeMenuItemInitalized.call(this,addKeysToMenu(buildTree(res.data.data).children),keyPathByUrl), activeKeyPath: keyPathByUrl});
     })
     .catch(err=>{
         console.log(err)
@@ -217,28 +186,6 @@ class Menu extends React.Component {
       return { menuCollapse: !prevState.menuCollapse };
     });
   };
-
-  // activeParentRelevant = (keyPath) => {
-  //   const updateMetadata = cloneDeep(this.state.menuMetadata);
-
-  //   const arrayKeyPath = keyPath.split("/");
-  //   arrayKeyPath.pop();
-  //   arrayKeyPath.shift();
-
-  //   arrayKeyPath.forEach((key, index) => {
-  //     let keyPathPerItem = "";
-  //     for (let i = 0; i <= index; i++) {
-  //       keyPathPerItem = keyPathPerItem + "/" + arrayKeyPath[i];
-  //     }
-  //     const menuItemParent = this.findItemByKeyPath(
-  //       keyPathPerItem,
-  //       updateMetadata
-  //     );
-  //     !menuItemParent.groupName && (menuItemParent.isParentActive = true);
-  //   });
-
-  //   this.setState({ menuMetadata: updateMetadata });
-  // };
 
   //#region functions events
   onItemClick = (itemData) => {

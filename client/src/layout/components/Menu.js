@@ -13,15 +13,14 @@ color: #5269fc;
 border-bottom: 1px solid #ddd;
 border-right: 1px solid #ddd;
 `
-class Menu extends React.Component {
-    render() {
+const Menu = (props) =>{
+    const {mode, isExpand} = props;
         return (
-            <div className="menu-container">
+            <div style={{left: mode === 'mobile' ? isExpand ? 0: '-200px' : null }} className="menu-container">
                 <Logo>Library M</Logo>
                 <MenuComponent />
             </div>
         )
-    }
 }
 
 export default Menu;

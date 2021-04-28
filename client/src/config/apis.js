@@ -5,7 +5,8 @@ export const AUTH = {
 }
 
 export const ACCOUNT = {
-    getInfo: BaseUrl + 'account-srv/account/get-info'
+    getInfo: BaseUrl + 'account-srv/account/get-info',
+    getList: BaseUrl + 'account-srv/account'
 }
 
 export const ROLE = {

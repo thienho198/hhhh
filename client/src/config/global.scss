@@ -1,0 +1,33 @@
+.action-header{
+	display: table-cell;
+	padding: 16px;
+	font-size: 0.875rem;
+	text-align: center;
+	font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+	font-weight: 400;
+	line-height: 1.43;
+	border-bottom: 1px solid rgba(224, 224, 224, 1);
+	letter-spacing: 0.01071em;
+	vertical-align: inherit;
+	font-weight: bold;
+}
+.action-row{
+	display: table-cell;
+	padding: 16px;
+	font-size: 0.875rem;
+	text-align: left;
+	font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+	font-weight: 400;
+	line-height: 1.43;
+	border-bottom: 1px solid rgba(224, 224, 224, 1);
+	letter-spacing: 0.01071em;
+	vertical-align: inherit;
+}
+
+.content-container {
+    padding: 20px;
+	&__title{
+		font-size:24px;
+		margin-bottom:10px;
+	}
+}

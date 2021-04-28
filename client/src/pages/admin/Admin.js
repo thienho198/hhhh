@@ -34,7 +34,8 @@ import { Loading } from './theme-sources/material-ui/components/loading';
 import moment from 'moment';
 import styled from 'styled-components';
 import ConfirmDialog from '../../components/dialog/DialogConfirm';
-
+import Breadcrumb from '../../components/breadcrumb/BreadCrumb';
+import {withRouter} from 'react-router-dom';
 const ToolbarCustom = styled.div`
 display:flex;
 justify-content: flex-end;
@@ -51,7 +52,7 @@ const DateTypeProvider = props => (
     />
   );
 
-export default class Admin extends React.Component {
+class Admin extends React.Component {
     constructor(props) {
         super(props);
         this.exporterRef = React.createRef()
@@ -80,7 +81,6 @@ export default class Admin extends React.Component {
         this.setState({loading: true});
         axios.get(ROLE.get)
         .then(res=>{
-            console.log('get success', res.data);
             setTimeout(()=>this.setState({data:res.data.data,totalCount:res.data.data.length, loading:false}),1000)
             
         })
@@ -150,9 +150,11 @@ export default class Admin extends React.Component {
     }
     render() {
         const {data, columns, loading, currentPage, pageSize, totalCount} = this.state;
+        console.log('aha', this.props.history)
         return (
             <div className="admin-page">
                 <div className="admin-page__role">
+                    <Breadcrumb keyPath={this.props.history.location.pathname}/>
                     <div className="admin-page__role__title">Roles</div>
                     <ToolbarCustom><Button size="medium" variant="contained" color="primary" onClick={this.onAddRole}>Add role</Button></ToolbarCustom>
                     <Paper>
@@ -205,3 +207,5 @@ export default class Admin extends React.Component {
         )
     }
 }
+
+export default withRouter(Admin);

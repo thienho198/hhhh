@@ -1,7 +1,7 @@
 .library-system-header{
     height:54px;
     z-index: 301;
-    background-color: white;
+    background-color: #5269fc;
     position:fixed;
     top: 0;
     left: 0;
@@ -16,7 +16,9 @@
         &__logo{
             margin-right: 40px;
             font-size:24px;
-            color: #5269fc;
+            line-height: 0;
+            color: white;
+            cursor: pointer;
         }
         &navitems{
             &__btn{

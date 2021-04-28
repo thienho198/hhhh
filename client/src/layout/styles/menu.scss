@@ -5,5 +5,12 @@
     bottom: 0;
     width: 200px;
     background-color: white;
-    z-index: 301;
+    z-index: 302;
+    transition: all 0.3s;
 }
+
+@media only screen and (max-width: 768px) {
+    .menu-container{
+        left:-200px;
+    }
+  }
