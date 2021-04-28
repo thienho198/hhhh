@@ -46,6 +46,21 @@ module.exports.getAccount = (req, res) => {
     res.send({...codes.SUCCESS[req.language], data: userData})
 }
 
+module.exports.getList = async (req, res) =>{
+    try{
+        const {query,sort,limit,skip,projection} = req.query; 
+        let [result,count] = await Promise.all([
+            Account.find(query,projection,{skip:skip,limit:limit,sort:sort}).populate('type').lean(),
+            Account.estimatedDocumentCount(query)
+        ])
+        res.send({...codes.SUCCESS[req.language],data:result, count:count})
+    }
+    catch(err) {
+        console.error(err);
+        res.status(500).send({message:err.message})
+    }
+}
+
 //functions
 module.exports.authenticateUser = async(username, password)=>{
     try {

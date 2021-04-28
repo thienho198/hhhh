@@ -33,7 +33,6 @@ module.exports.cRole = (data)=>{
                     role:Joi.string().required(),
                     resource: Joi.string().required(),
                     action: Joi.string().required(),
-                    attributes: Joi.string().required(),
                 }
             )
 
@@ -145,3 +144,4 @@ module.exports.uMenu = {
     requiredTypes: Joi.array().items(Joi.string()),
     id: Joi.string().required(),
 }
+
