@@ -20,13 +20,16 @@ module.exports.create = async(req, res, next) => {
 
 module.exports.read = async(req, res, next)=>{
     try {
-        await utils.checkPermission(req,'role', 'read');
-        const result = await Role.find();
-        res.send({...codes.SUCCESS[req.language], data: result});
+        const {filter,sort,limit,skip,projection} = req.query; 
+        let [result,count] = await Promise.all([
+            Role.find(filter,projection,{skip:skip,limit:limit,sort:sort}),
+            Role.countDocuments(filter)
+        ])
+        res.send({...codes.SUCCESS[req.language],data:result, count:count})
     }
     catch(err) {
-        console.log(err);
-        res.status(400).send({...codes.SYSTEM_ERROR[req.language], error: err.message})
+        console.error(err);
+        res.status(500).send({message:err.message})
     }
 }
 

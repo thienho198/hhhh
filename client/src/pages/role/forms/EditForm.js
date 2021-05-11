@@ -16,7 +16,7 @@ const Form = props =>{
     const watchFields = watch(["action"]);
     const onSubmit = ()=>{
         const submitData = control.getValues();
-            submitData.id = props._id;
+            submitData.id = props.data._id;
             if(!submitData.attributes){
                 submitData.attributes = '*';
             }

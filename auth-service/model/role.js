@@ -9,4 +9,6 @@ const schema = new mongoose.Schema({
     timestamps: true
 });
 
+schema.index({ role: 'text',resource:'text'});
+
 module.exports = mongoose.model('role', schema);

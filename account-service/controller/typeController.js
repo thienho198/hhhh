@@ -22,9 +22,12 @@ module.exports.create = async(req, res)=>{
 
 module.exports.read = async(req, res)=>{
     try{
-        await util.checkPermission(req,'type','read');
-        const result = await Type.find();
-        res.send({...codes.SUCCESS[req.language], data:result});
+        const {filter,sort,limit,skip,projection} = req.query; 
+        let [result,count] = await Promise.all([
+            Type.find(filter,projection,{skip:skip,limit:limit,sort:sort}).populate('type').lean(),
+            Type.countDocuments(filter)
+        ])
+        res.send({...codes.SUCCESS[req.language],data:result, count:count})
     }
     catch(err) {
         res.status(500).send({message:err.message})

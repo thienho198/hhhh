@@ -6,7 +6,9 @@ export const AUTH = {
 
 export const ACCOUNT = {
     getInfo: BaseUrl + 'account-srv/account/get-info',
-    getList: BaseUrl + 'account-srv/account'
+    getList: BaseUrl + 'account-srv/account', 
+    create: BaseUrl + 'account-srv/account/create',
+    update: BaseUrl + 'account-srv/account/update',
 }
 
 export const ROLE = {
@@ -17,5 +19,12 @@ export const ROLE = {
 }
 
 export const MENU = {
-    get: BaseUrl + 'account-srv/menu'
+    get: BaseUrl + 'account-srv/menu',
+    create: BaseUrl + 'account-srv/menu/create',
+    update: BaseUrl + 'account-srv/menu/update', 
+    delete: BaseUrl + 'account-srv/menu/delete'
+}
+
+export const TYPE = {
+    get: BaseUrl + 'account-srv/type'
 }

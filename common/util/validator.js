@@ -14,8 +14,7 @@ module.exports.registerValidator = (data) =>{
 }
 
 
-module.exports.cAccount = (data) =>{
-    const schema = Joi.object({
+module.exports.cAccount = {
         email: Joi.string().required().email(),
         password: Joi.string().required().min(6),
         firstName: Joi.string().required(),
@@ -23,8 +22,6 @@ module.exports.cAccount = (data) =>{
         birthday: Joi.string().required(),
         phone: Joi.string().regex(PHONE_REGEX),
         type: Joi.string().required(),
-    });
-    return schema.validate(data, {stripUnknown: false});
 }
 
 
@@ -124,7 +121,8 @@ module.exports.cMenu = {
     name:Joi.string().required(),
     parentId:Joi.string(),
     isActive: Joi.boolean(),
-    requiredTypes: Joi.array().items(Joi.string())
+    parentPosition:Joi.string(),
+    requiredTypes: Joi.array().items(Joi.string()),
 }
 
 module.exports.dRole = {
@@ -139,9 +137,53 @@ module.exports.uRole = {
 }
 module.exports.uMenu = {
     name:Joi.string(),
-    parentId:Joi.string(),
-    isActive: Joi.boolean(),
     requiredTypes: Joi.array().items(Joi.string()),
     id: Joi.string().required(),
 }
 
+module.exports.rRole = {
+    filter_regex_action: Joi.string(),
+    filter_regex_attributes: Joi.string(),
+    filter_date_range_from_createdAt: Joi.string(),
+    filter_date_range_to_createdAt: Joi.string(),
+    filter_date_range_from_updatedAt: Joi.string(),
+    filter_date_range_to_updatedAt: Joi.string()
+}
+
+module.exports.rAccount = {
+    filter_regex_email: Joi.string(),
+    filter_regex_birthday: Joi.string(),
+    filter_regex_phone: Joi.string(),
+    filter_regex_type: Joi.string(),
+    filter_date_range_from_createdAt: Joi.string(),
+    filter_date_range_to_createdAt: Joi.string(),
+    filter_date_range_from_updatedAt: Joi.string(),
+    filter_date_range_to_updatedAt: Joi.string()
+}
+
+module.exports.uAccount = {
+    email: Joi.string().email(),
+    password: Joi.string().min(6),
+    firstName: Joi.string(),
+    lastName: Joi.string(),
+    birthday: Joi.string(),
+    phone: Joi.string().regex(PHONE_REGEX),
+    type: Joi.string(),
+    id: Joi.string().required()
+}
+
+module.exports.rMenu = {
+    filter_date_range_from_createdAt: Joi.string(),
+    filter_date_range_to_createdAt: Joi.string(),
+    filter_date_range_from_updatedAt: Joi.string(),
+    filter_date_range_to_updatedAt: Joi.string(),
+    filter_regex_name: Joi.string(),
+    filter_regex_requiredTypes: Joi.string(),
+    filter_regex_isActive: Joi.string(),
+    filter_boolean_isActive: Joi.boolean(),
+    filter_array_regex_requiredTypes: Joi.string(),
+}
+
+module.exports.dMenu = {
+    position: Joi.string().required()
+}

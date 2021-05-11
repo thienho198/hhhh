@@ -1,0 +1,15 @@
+.confirm-dialog{
+    padding:20px 30px;
+    &__title{
+        padding-top: 20px;
+        min-width: 250px;
+        font-weight:bold;
+        line-height:1;
+    }
+    &__content{
+        margin-top:10px;
+    }
+    &__tool{
+        margin-top: 30px;
+    }
+}

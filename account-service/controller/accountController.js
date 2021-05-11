@@ -6,18 +6,15 @@ const util = require('../../common/util');
 
 //middle ware
 module.exports.create = async(req, res, next) => {
-    const {error, value} = validators.cAccount(req.body);
-    if(error) return res.status(400).send({...codes.BAD_REQUEST[constants[req.language]], message: error.message});
     try{
-        await util.checkPermission(req,'account','create');
-        const hashPwd = await util.generateHashPwd(value.password);
-        value.password = hashPwd;
-        const acount = await Account.create(value);
+        const hashPwd = await util.generateHashPwd(req.body.password);
+        req.body.password = hashPwd;
+        const acount = await Account.create(req.body);
         res.send({...codes.SUCCESS[req.language], data: acount})
     }
     catch(err) {
         console.error(err);
-        res.status(400).send(err)
+        res.status(500).send({message:err.message});
     }
 }
 
@@ -48,16 +45,28 @@ module.exports.getAccount = (req, res) => {
 
 module.exports.getList = async (req, res) =>{
     try{
-        const {query,sort,limit,skip,projection} = req.query; 
+        const {filter,sort,limit,skip,projection} = req.query; 
         let [result,count] = await Promise.all([
-            Account.find(query,projection,{skip:skip,limit:limit,sort:sort}).populate('type').lean(),
-            Account.estimatedDocumentCount(query)
+            Account.find(filter,projection,{skip:skip,limit:limit,sort:sort}).populate('type').lean(),
+            Account.countDocuments(filter)
         ])
         res.send({...codes.SUCCESS[req.language],data:result, count:count})
     }
     catch(err) {
         console.error(err);
         res.status(500).send({message:err.message})
+    }
+}
+
+module.exports.update = async (req, res) => {
+    try{
+        const id = req.body.id;
+        const accountUpdated = await Account.findByIdAndUpdate(id, req.body, {new:true});
+        res.send({...codes.SUCCESS[req.language], data:accountUpdated})
+    }
+    catch(err) {
+        console.log(err);
+        res.status(400).send({...codes.SYSTEM_ERROR[req.language], error: err.message}) 
     }
 }
 
