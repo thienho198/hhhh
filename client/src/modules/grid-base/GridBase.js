@@ -122,6 +122,7 @@ class GridBase extends React.Component {
             defaultFilters:[],
             regexColumns:['email','phone','type'],
             dateRangeColumns:['createdAt', 'updatedAt'],
+            arrayColumns:[],
             columnFilteringExtensions:[{columnName:'stt', filteringEnabled:false},{ columnName:'action', filteringEnabled:false}]
         }
     }
@@ -160,13 +161,14 @@ class GridBase extends React.Component {
 
           const filtersRegex = {};
           const filtersDateRange = {};
+          const filterArray = {};
           this.state.filters.forEach(item=>{
               //filter_regex
               if(this.state.regexColumns.indexOf(item.columnName)>=0){
                   filtersRegex['filter_regex_' + item.columnName] = this.filterToRegexStr(item.operation, item.value);
               }
               //filter_date_range
-              if(this.state.dateRangeColumns.indexOf(item.columnName)>=0){
+              else if(this.state.dateRangeColumns.indexOf(item.columnName)>=0){
                   if(item.value.from && item.value.to){
                       const dateFrom = new Date(item.value.from);
                       dateFrom.setHours(0,0,0,0);
@@ -176,9 +178,13 @@ class GridBase extends React.Component {
                       filtersDateRange['filter_date_range_to_'+item.columnName] = item.value.to; 
                   }   
               }
+              //filter_array_regex
+              else if(this.state.arrayColumns.indexOf(item.columnName)>=0){
+                filterArray['filter_array_regex_'+item.columnName] = this.filterToRegexStr(item.operation, item.value);
+              }
           })
 
-          axios.get(this.state.apiGet, {params:{...params,...filtersRegex, ...filtersDateRange}})          
+          axios.get(this.state.apiGet, {params:{...params,...filtersRegex, ...filtersDateRange,...filterArray}})          
           .then(res=>{
               this.transferData(res);
           })

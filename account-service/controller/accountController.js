@@ -58,6 +58,18 @@ module.exports.getList = async (req, res) =>{
     }
 }
 
+module.exports.delete = async(req, res)=>{
+    try{
+        const id = req.query.id;
+        const deletedRecord = await Account.findByIdAndDelete(id);
+        res.send({...codes.SUCCESS[req.language],data:deletedRecord});
+    }
+    catch(err) {
+        console.error(err);
+        res.status(500).send({message:err.message})
+    }
+}
+
 module.exports.update = async (req, res) => {
     try{
         const id = req.body.id;

@@ -7,6 +7,7 @@ import RolePage from './pages/role/Role';
 import NotFoundPage from './pages/not-found/NotFound';
 import UserPage from './pages/user/User';
 import MenuPage from './pages/menu/MenuPage';
+import TypePage from './pages/type/Type';
 
 export default [
     {
@@ -32,6 +33,11 @@ export default [
                 render:()=> <PrivateRoute roles={['admin','super admin']} component={UserPage}/>,
                 path:'/Admin/User',
                 exact: true
+            },
+            {
+                render:()=> <PrivateRoute roles={['admin','super admin']} component={TypePage}/>,
+                path:'/Admin/Type',
+                exact: true 
             },
            {
                render: () => <PrivateRoute roles={['super admin','admin','user','librarian']} component={Home}/>,

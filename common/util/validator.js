@@ -24,6 +24,10 @@ module.exports.cAccount = {
         type: Joi.string().required(),
 }
 
+module.exports.dAccount = {
+    id: Joi.string().required()
+}
+
 
 module.exports.cRole = (data)=>{
     const schema = Joi.object({
@@ -186,4 +190,24 @@ module.exports.rMenu = {
 
 module.exports.dMenu = {
     position: Joi.string().required()
+}
+
+module.exports.rType = {
+    filter_regex_name: Joi.string(),
+    filter_array_regex_roles: Joi.string(),
+    filter_date_range_from_createdAt: Joi.string(),
+    filter_date_range_to_createdAt: Joi.string(),
+    filter_date_range_from_updatedAt: Joi.string(),
+    filter_date_range_to_updatedAt: Joi.string()
+}
+
+module.exports.cType = {
+    name: Joi.string().required(),
+    role:Joi.array().items(Joi.string())
+}
+
+module.exports.uType = {
+    name: Joi.string().required(),
+    roles:Joi.array().items(Joi.string()),
+    id: Joi.string().required()
 }

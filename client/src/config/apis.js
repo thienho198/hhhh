@@ -9,6 +9,7 @@ export const ACCOUNT = {
     getList: BaseUrl + 'account-srv/account', 
     create: BaseUrl + 'account-srv/account/create',
     update: BaseUrl + 'account-srv/account/update',
+    delete: BaseUrl + 'account-srv/account/delete'
 }
 
 export const ROLE = {
@@ -26,5 +27,7 @@ export const MENU = {
 }
 
 export const TYPE = {
-    get: BaseUrl + 'account-srv/type'
+    get: BaseUrl + 'account-srv/type',
+    create: BaseUrl + 'account-srv/type/create',
+    update: BaseUrl + 'account-srv/type/update'
 }

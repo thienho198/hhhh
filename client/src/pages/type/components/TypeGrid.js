@@ -1,6 +1,6 @@
 import React from 'react';
 import GridBase from '../../../modules/grid-base/GridBase';
-import {ACCOUNT} from '../../../config/apis';
+import {TYPE} from '../../../config/apis';
 import Button from '../../../components/button';
 import CreateForm from '../forms/CreateForm';
 import EditForm from '../forms/EditForm';
@@ -11,7 +11,7 @@ import axios from '../../../axios/mainAxios';
 import {toast} from 'react-toastify';
 
 
-class UserGrid extends GridBase {
+class TypeGrid extends GridBase {
     constructor(props) {
         super(props);
 
@@ -19,15 +19,9 @@ class UserGrid extends GridBase {
             ...this.state,
             columns:[
                 {name:'stt', title: 'STT'},
-                { name:'email', title:'Email'},
-                { name: 'birthday', title: 'Birth day'},
-                { name: 'phone', title: 'Phone' },
-                {
-                    name: 'type',
-                    title: 'Type',
-                    getCellValue: row => (row.type ? row.type.name : undefined),
-                },
-                // { name: 'createdAt', title: 'Created At' },
+                { name:'name', title:'Name'},
+                { name: 'roles', title: 'Roles'},
+                { name: 'createdAt', title: 'Created At' },
                 { name: 'updatedAt', title: 'Updated At' },
                 { 
                     name:'action', 
@@ -36,16 +30,16 @@ class UserGrid extends GridBase {
                     <Button onClick={()=>this.onDeleteRow(row)} styleButton={{backgroundColor:'#dc3545'}} styleTitle={{color:'white'}}>Delete</Button></div>)
                 }
             ],
-            apiGet:ACCOUNT.getList,
+            apiGet:TYPE.get,
             tableColumnExtensions:[
-                {columnName:'email', width:'300px'},
                 {columnName: 'action', width:250},
-                {columnName:'stt', width:'80px'},
-                {columnName:'birthday', width:'200px'},
+                {columnName:'createdAt',width:'200px'},
                 {columnName:'updatedAt', width:'200px'}
             ],
-            dateRangeColumns:['createdAt', 'updatedAt','birthday'],
-            dateColumns:['createdAt', 'updatedAt', 'birthday'],
+            dateRangeColumns:['createdAt', 'updatedAt'],
+            dateColumns:['createdAt', 'updatedAt'],
+            regexColumns:['name'],
+            arrayColumns:['roles']
             
         }
     }
@@ -53,16 +47,11 @@ class UserGrid extends GridBase {
         this.modalRef.onShow(<CreateForm onClose={this.onCloseModal} onReload={this.fetchData}/>)
     }
     onEditRow = (row)=>{
-        const transferRow = {...row};
-        transferRow.type = transferRow.type._id;
-        const birthday = new Date(transferRow.birthday);
-
-        transferRow.birthday = `${birthday.getFullYear()}-${padLeadingZeros(birthday.getMonth()+1,2)}-${padLeadingZeros(birthday.getDate(),2)}`;
-        this.modalRef.onShow(<EditForm onClose={this.onCloseModal} onReload={this.fetchData} data={transferRow}/>)
+        this.modalRef.onShow(<EditForm onClose={this.onCloseModal} onReload={this.fetchData} data={row}/>)
     }
     onDeleteRow = (row) =>{
         const onHandleDelete = ()=>{
-            axios.delete(ACCOUNT.delete,{params:{id:row._id}})
+            axios.delete(TYPE.delete,{params:{id:row._id}})
             .then(()=>{
                 toast.success('Xóa thành công');
                 this.onCloseModal();
@@ -76,4 +65,4 @@ class UserGrid extends GridBase {
     }
 }
 
-export default UserGrid;
+export default TypeGrid;

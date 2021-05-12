@@ -216,6 +216,7 @@ class TreeGridBase extends React.Component {
                 filtersBoolean['filter_boolean_'+item.columnName] = item.value
               } 
             }
+            //filter_array_regex
             else if(this.state.arrayColumns.indexOf(item.columnName)>=0){
               filterArray['filter_array_regex_'+item.columnName] = this.filterToRegexStr(item.operation, item.value);
             }

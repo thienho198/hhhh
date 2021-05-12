@@ -3,7 +3,9 @@ import GroupGridBase from '../../../modules/group-grid/GroupGrid';
 import {ROLE} from '../../../config/apis'
 import EditForm from '../forms/EditForm';
 import CreateForm from '../forms/CreateForm';
-
+import ConfirmDialog from '../../../components/dialog/Confirm';
+import axios from '../../../axios/mainAxios';
+import {toast} from 'react-toastify';
 class RoleGroupGrid extends GroupGridBase {
     constructor(props) {
         super(props);
@@ -28,6 +30,21 @@ class RoleGroupGrid extends GroupGridBase {
 
     onAddRow = ()=>{
         this.modalRef.onShow(<CreateForm onClose={this.onCloseModal} onReload={this.fetchData}/>)
+    }
+
+    onDeleteRow = (row) =>{
+        const onHandleDelete = ()=>{
+            axios.delete(ROLE.delete,{params:{id:row._id}})
+            .then(()=>{
+                toast.success('Xóa thành công');
+                this.onCloseModal();
+                this.fetchData();
+            })
+            .catch(err=>{
+                console.log(err);
+            })
+        }
+        this.modalRef.onShow(<ConfirmDialog title="Do you actually want to delete this item ?" content={row.role +' '+ row.resource + ' '+row.action} onClose={this.onCloseModal} onOk={onHandleDelete}/>)
     }
 
 }
